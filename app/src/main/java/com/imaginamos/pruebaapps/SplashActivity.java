@@ -1,5 +1,8 @@
 package com.imaginamos.pruebaapps;
 
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+
 import com.daimajia.androidanimations.library.Techniques;
 import com.viksaa.sssplash.lib.activity.AwesomeSplash;
 import com.viksaa.sssplash.lib.cnst.Flags;
@@ -10,6 +13,12 @@ public class SplashActivity extends AwesomeSplash {
     @Override
     public void initSplash(ConfigSplash configuracionSplash) {
 
+        boolean tablet = getResources().getBoolean(R.bool.tablet);
+        if (tablet) {
+            setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else {
+            setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
         configuracionSplash.setBackgroundColor(R.color.colorPrimary); //any color you want form colors.xml
         configuracionSplash.setAnimCircularRevealDuration(2000); //int ms
         configuracionSplash.setRevealFlagX(Flags.REVEAL_RIGHT);  //or Flags.REVEAL_LEFT
@@ -40,9 +49,8 @@ public class SplashActivity extends AwesomeSplash {
 
     @Override
     public void animationsFinished() {
-
-        //transit to another activity here
-        //or do whatever you want
+        this.finish();
+        startActivity(new Intent(SplashActivity.this, ApplicationListActivity.class));
     }
 
 }
