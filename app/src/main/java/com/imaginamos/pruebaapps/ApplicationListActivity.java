@@ -32,6 +32,7 @@ import com.imaginamos.pruebaapps.model.Application;
 import com.imaginamos.pruebaapps.model.ApplicationBussines;
 import com.imaginamos.pruebaapps.util.Constants;
 import com.imaginamos.pruebaapps.util.Preferences;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -60,8 +61,6 @@ public class ApplicationListActivity extends AppCompatActivity implements Adapte
         Boolean internet = isOnline();
 
         if(internet) {
-            if (preferences.readFirtsRunPreference()) {
-
                 applicationBussines.deleteAll();
                 Map<String, String> header = new HashMap<>();
                 header.put("charset", "utf-8");
@@ -80,10 +79,7 @@ public class ApplicationListActivity extends AppCompatActivity implements Adapte
                         .buildObjectRequester(listener); //or .buildArrayRequester(listener);
                 mRequester.request(Methods.GET, Constants.URL);
                 gridView.setAdapter(gridAdapter);
-                preferences.writeFirtsRunPreference();
-            }else{
-                gridView.setAdapter(gridAdapter);
-            }
+
         }else{
             if (applicationBussines.getApplicationListSize() > 0) {
                 gridView.setAdapter(gridAdapter);
@@ -91,26 +87,9 @@ public class ApplicationListActivity extends AppCompatActivity implements Adapte
                 showSnackBar(linearContainer, "verifique su conexion");
             }
         }
-        //TODO para la siguiente actividad por favor borrame
-//        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-//        int c = getDominantColor(largeIcon);
-//
-////        int color = ContextCompat.getColorStateList(getApplicationContext(), c).getDefaultColor();
-//        String strColor = String.format("#%06X", 0xFFFFFF & c);
-//        Toast.makeText(getApplicationContext(), "" + strColor, Toast.LENGTH_LONG).show();
-//
-//        android.support.v7.app.ActionBar bar = getSupportActionBar();
-//
-//        if ( bar != null)
-//        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(strColor)));
+
     }
 
-    public static int getDominantColor(Bitmap bitmap) {
-        Bitmap bitmap1 = Bitmap.createScaledBitmap(bitmap, 1, 1, true);
-        int color = bitmap1.getPixel(0, 0);
-
-        return color;
-    }
 
     private void showSnackBar(View view, String message) {
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
@@ -153,6 +132,7 @@ public class ApplicationListActivity extends AppCompatActivity implements Adapte
                     .setTitle(app.getTitle()+"\n"+app.getCategory())
                     .setDescription(app.getSummary())
                     .setScrollable(true)
+                    .setHeaderColor(R.color.colorPrimaryDark)
                     .show();
         }else {
             Intent applicationIntent = new Intent(ApplicationListActivity.this, ApplicationDetailActivity.class);

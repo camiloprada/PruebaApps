@@ -13,6 +13,7 @@ import com.imaginamos.pruebaapps.model.Application;
 import com.imaginamos.pruebaapps.model.ApplicationBussines;
 import com.imaginamos.pruebaapps.model.DaoMaster;
 import com.imaginamos.pruebaapps.model.DaoSession;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +35,7 @@ public class JsonObjectListener extends Response.SimpleObjectResponse {
     private GridAdapter gridAdapter;
     private GridView gridView;
     private Context context;
+
 
     public JsonObjectListener(Context context, GridView gridView) {
         applicationBussines = new ApplicationBussines(context);

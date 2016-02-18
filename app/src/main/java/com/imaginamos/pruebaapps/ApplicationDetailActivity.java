@@ -1,20 +1,23 @@
 package com.imaginamos.pruebaapps;
 
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.imaginamos.pruebaapps.model.Application;
 import com.imaginamos.pruebaapps.model.ApplicationBussines;
 import com.imaginamos.pruebaapps.util.Constants;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class ApplicationDetailActivity extends AppCompatActivity {
 
-    
-    private TextView textViewTitleDetail;
+    private ImageView imageViewAppDetail;
     private TextView textViewArtistDetail;
     private TextView textViewReleaseDateDetail;
     private TextView textViewRightsDetail;
@@ -31,26 +34,32 @@ public class ApplicationDetailActivity extends AppCompatActivity {
         verifyPageOrientation();
         initView();
         getExtras();
+
         ApplicationBussines applicationBussines  = new ApplicationBussines(getApplicationContext());
         Application app = applicationBussines.getApplication(id);
         setApplicationInfo(app);
     }
     
     private void setApplicationInfo(Application app){
+        ImageLoader.getInstance().displayImage(app.getUrlImageLarge(), imageViewAppDetail);
+        Bitmap image = ImageLoader.getInstance().loadImageSync(app.getUrlImageLarge());
 
-        textViewTitleDetail.setText(app.getTitle());
+        changeActionBarColorAndTitle(image, app.getTitle());
         textViewArtistDetail.setText(app.getArtist());
         textViewReleaseDateDetail.setText(app.getReleaseDate());
         textViewRightsDetail.setText(app.getRights());
         textViewTypeDetail.setText(app.getType());
         textViewCategoryDetail.setText(app.getCategory());
-        textViewPriceDetail.setText(app.getPrice().toString());
+        if (app.getPrice()==0.0){
+        textViewPriceDetail.setText(R.string.free);
+        }else {
+            textViewPriceDetail.setText(app.getPrice().toString());
+        }
         textViewSummaryDetail.setText(app.getSummary());
-        
     }
 
     private void initView(){
-        textViewTitleDetail= (TextView) findViewById(R.id.textViewTitleDetail);
+        imageViewAppDetail = (ImageView) findViewById(R.id.imageViewAppDetail);
         textViewArtistDetail= (TextView) findViewById(R.id.textViewArtistDetail);
         textViewReleaseDateDetail= (TextView) findViewById(R.id.textViewReleaseDateDetail);
         textViewRightsDetail= (TextView) findViewById(R.id.textViewRightsDetail);
@@ -61,7 +70,25 @@ public class ApplicationDetailActivity extends AppCompatActivity {
         textViewSummaryDetail.setMovementMethod(new ScrollingMovementMethod());
         
     }
+    private void changeActionBarColorAndTitle(Bitmap image, String title) {
 
+        int dominantColor = getDominantColor(image);
+        String strColor = String.format("#%06X", 0xFFFFFF & dominantColor);
+        android.support.v7.app.ActionBar bar = getSupportActionBar();
+        if ( bar != null) {
+
+            bar.setTitle(title);
+            bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor(strColor)));
+        }
+    }
+
+
+    public static int getDominantColor(Bitmap bitmap) {
+        Bitmap bitmap1 = Bitmap.createScaledBitmap(bitmap, 2, 2, true);
+        int color = bitmap1.getPixel(0, 1);
+
+        return color;
+    }
 
     private void getExtras(){
         Bundle extras = getIntent().getExtras();

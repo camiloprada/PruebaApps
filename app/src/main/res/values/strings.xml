@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">PruebaApps</string>
+    <string name="app_name">App List</string>
+    <string name="splash_text">App List</string>
+    <string name="free">Gratis</string>
 </resources>

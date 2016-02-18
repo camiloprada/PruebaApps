@@ -11,6 +11,5 @@
         android:layout_height="match_parent"
         android:id="@+id/gridApps"
         android:horizontalSpacing="@dimen/horizontal_spacing"
-        android:verticalSpacing="@dimen/vertical_spacing"
-        android:layout_gravity="center_vertical" />
+        android:verticalSpacing="@dimen/vertical_spacing"/>
 </LinearLayout>
