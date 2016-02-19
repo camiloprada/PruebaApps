@@ -34,12 +34,15 @@ public class ApplicationDetailActivity extends AppCompatActivity {
         verifyPageOrientation();
         initView();
         getExtras();
-
         ApplicationBussines applicationBussines  = new ApplicationBussines(getApplicationContext());
         Application app = applicationBussines.getApplication(id);
         setApplicationInfo(app);
     }
-    
+
+    /**
+     * Sets the information of the selected app in main view
+     * @param app
+     */
     private void setApplicationInfo(Application app){
         ImageLoader.getInstance().displayImage(app.getUrlImageLarge(), imageViewAppDetail);
         Bitmap image = ImageLoader.getInstance().loadImageSync(app.getUrlImageLarge());
@@ -58,6 +61,9 @@ public class ApplicationDetailActivity extends AppCompatActivity {
         textViewSummaryDetail.setText(app.getSummary());
     }
 
+    /**
+     * get the views
+     */
     private void initView(){
         imageViewAppDetail = (ImageView) findViewById(R.id.imageViewAppDetail);
         textViewArtistDetail= (TextView) findViewById(R.id.textViewArtistDetail);
@@ -70,6 +76,12 @@ public class ApplicationDetailActivity extends AppCompatActivity {
         textViewSummaryDetail.setMovementMethod(new ScrollingMovementMethod());
         
     }
+
+    /**
+     * Change the action bar color by the dominant color from app image
+     * @param image
+     * @param title
+     */
     private void changeActionBarColorAndTitle(Bitmap image, String title) {
 
         int dominantColor = getDominantColor(image);
@@ -82,7 +94,11 @@ public class ApplicationDetailActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * get the dominant color from bitmap - (GOOGLE RESEARCH)
+     * @param bitmap
+     * @return
+     */
     public static int getDominantColor(Bitmap bitmap) {
         Bitmap bitmap1 = Bitmap.createScaledBitmap(bitmap, 2, 2, true);
         int color = bitmap1.getPixel(0, 1);
@@ -90,10 +106,17 @@ public class ApplicationDetailActivity extends AppCompatActivity {
         return color;
     }
 
+    /**
+     * Get extras from previous activity, basically the application ID
+     */
     private void getExtras(){
         Bundle extras = getIntent().getExtras();
         id = extras.getLong(Constants.APPLICATION_ID);
     }
+
+    /**
+     * verify the device orientation
+     */
     private void verifyPageOrientation(){
 
         boolean tablet = getResources().getBoolean(R.bool.tablet);

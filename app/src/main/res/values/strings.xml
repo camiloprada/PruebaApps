@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">App List</string>
     <string name="splash_text">App List</string>
-    <string name="free">Gratis</string>
+    <string name="free">Free</string>
+    <string name="download_app">Get App</string>
+    <string name="verify_your_internet">verify your internet connection</string>
 </resources>

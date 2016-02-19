@@ -1,24 +1,17 @@
 package com.imaginamos.pruebaapps;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
-
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.alirezaafkar.json.requester.Requester;
 import com.alirezaafkar.json.requester.interfaces.ContentType;
 import com.alirezaafkar.json.requester.interfaces.Methods;
@@ -32,12 +25,9 @@ import com.imaginamos.pruebaapps.model.Application;
 import com.imaginamos.pruebaapps.model.ApplicationBussines;
 import com.imaginamos.pruebaapps.util.Constants;
 import com.imaginamos.pruebaapps.util.Preferences;
-import com.nostra13.universalimageloader.core.ImageLoader;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
 
 public class ApplicationListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -61,6 +51,7 @@ public class ApplicationListActivity extends AppCompatActivity implements Adapte
         Boolean internet = isOnline();
 
         if(internet) {
+                //Delete all the data in greendao's db for the new information
                 applicationBussines.deleteAll();
                 Map<String, String> header = new HashMap<>();
                 header.put("charset", "utf-8");
@@ -71,12 +62,12 @@ public class ApplicationListActivity extends AppCompatActivity implements Adapte
                 JsonObjectRequester mRequester;
                 mRequester = new RequestBuilder(this)
                         .requestCode(0)
-                        .contentType(ContentType.TYPE_JSON) //or ContentType.TYPE_FORM
-                        .showError(true) //Show error with toast on Network or Server error
+                        .contentType(ContentType.TYPE_JSON)
+                        .showError(true)
                         .shouldCache(true)
                         .priority(Request.Priority.NORMAL)
                         .allowNullResponse(true)
-                        .buildObjectRequester(listener); //or .buildArrayRequester(listener);
+                        .buildObjectRequester(listener);
                 mRequester.request(Methods.GET, Constants.URL);
                 gridView.setAdapter(gridAdapter);
 
@@ -84,32 +75,44 @@ public class ApplicationListActivity extends AppCompatActivity implements Adapte
             if (applicationBussines.getApplicationListSize() > 0) {
                 gridView.setAdapter(gridAdapter);
             } else {
-                showSnackBar(linearContainer, "verifique su conexion");
+                showSnackBar(linearContainer, getString(R.string.verify_your_internet));
             }
         }
 
     }
 
-
+    /**
+     * Shows a simple snack bar with message for internet troubles
+     * @param view
+     * @param message for internet torubles
+     */
     private void showSnackBar(View view, String message) {
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
         snackbar.show();
     }
 
+    /**
+     * Check internet connection by doing a ping to google
+     * @return true if there are internet false if not
+     */
     public boolean isOnline() {
         Runtime runtime = Runtime.getRuntime();
         try {
-
             Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
             int     exitValue = ipProcess.waitFor();
             return (exitValue == 0);
 
-        } catch (IOException e)          { e.printStackTrace(); }
-        catch (InterruptedException e) { e.printStackTrace(); }
+        } catch (IOException e) { e.printStackTrace();}
+        catch (InterruptedException e) { e.printStackTrace();}
 
         return false;
     }
 
+    /**
+     * The name says all
+     * for the exercise ,landscape phone and portrait for tablet
+     * sets the number of columns for the gridview list - grid
+     */
     private void verifyPageOrientation(){
 
         tablet = getResources().getBoolean(R.bool.tablet);
@@ -124,17 +127,62 @@ public class ApplicationListActivity extends AppCompatActivity implements Adapte
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Application app = (Application) adapterView.getItemAtPosition(i);
-
+        final Application app = (Application) adapterView.getItemAtPosition(i);
         if(tablet){
-
-            new MaterialStyledDialog(this)
-                    .setTitle(app.getTitle()+"\n"+app.getCategory())
-                    .setDescription(app.getSummary())
-                    .setScrollable(true)
-                    .setHeaderColor(R.color.colorPrimaryDark)
-                    .show();
+            //shows a custom dialog from library (only for tablet)
+            MaterialStyledDialog dialog = new MaterialStyledDialog(this);
+            dialog.setTitle(app.getTitle() + "\n" + app.getCategory());
+            dialog.setDescription(app.getSummary());
+            dialog.setScrollable(true);
+            dialog.setHeaderColor(R.color.colorPrimaryDark);
+           //verify the apps' category and sets the icon
+            switch (app.getCategory()){
+               case "Application":
+                   dialog.setIcon(R.mipmap.ic_application);
+                   break;
+               case "Music":
+                   dialog.setIcon(R.mipmap.ic_music);
+                   break;
+               case "Social Networking":
+                   dialog.setIcon(R.mipmap.ic_social);
+                   break;
+               case "Games":
+                   dialog.setIcon(R.mipmap.ic_game);
+                   break;
+               case "Photo & Video":
+                   dialog.setIcon(R.mipmap.ic_photo_video);
+                   break;
+               case "Productivity":
+                   dialog.setIcon(R.mipmap.ic_productivity);
+                   break;
+               case "Education":
+                   dialog.setIcon(R.mipmap.ic_education);
+                   break;
+               case "Navigation":
+                   dialog.setIcon(R.mipmap.ic_navigation);
+                   break;
+               case "Travel":
+                   dialog.setIcon(R.mipmap.ic_travel);
+                   break;
+               case "Entertainment":
+                   dialog.setIcon(R.mipmap.ic_entertaiment);
+                   break;
+               case "Shopping":
+                   dialog.setIcon(R.mipmap.ic_shopping);
+                   break;
+           }
+            dialog.setPositive(getResources().getString(R.string.download_app), new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(MaterialDialog dialog, DialogAction which) {
+                    //Starts the browser with the link of the app
+                    String url = app.getLink();
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity(browserIntent);
+                }
+            });
+            dialog.show();
         }else {
+            //starts the detail activity (only for phone)
             Intent applicationIntent = new Intent(ApplicationListActivity.this, ApplicationDetailActivity.class);
             applicationIntent.putExtra(Constants.APPLICATION_ID, app.getId());
             startActivity(applicationIntent);

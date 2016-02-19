@@ -55,7 +55,7 @@ public class GridAdapter extends BaseAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.grid_item, viewGroup, false);
         }
-
+        //Sets all the application data for the main view, it uses the db information (greendao) and image cache (UniversalImageLoader)
         TextView labelTitle = (TextView) view.findViewById(R.id.labelTitle);
         TextView labelArtist = (TextView) view.findViewById(R.id.labelArtist);
         TextView labelPrice = (TextView) view.findViewById(R.id.labelPrice);
@@ -68,8 +68,6 @@ public class GridAdapter extends BaseAdapter {
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
 
-
-
         labelTitle.setText(applicationList.get(i).getTitle());
         labelArtist.setText(applicationList.get(i).getArtist());
         Double price = applicationList.get(i).getPrice();
@@ -79,7 +77,6 @@ public class GridAdapter extends BaseAdapter {
             labelPrice.setText(applicationList.get(i).getPrice().toString());
         }
         ImageLoader.getInstance().displayImage(applicationList.get(i).getUrlImageLarge(), imageView);
-
         return view;
     }
 }

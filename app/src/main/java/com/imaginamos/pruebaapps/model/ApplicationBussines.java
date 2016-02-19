@@ -9,6 +9,7 @@ import de.greenrobot.dao.query.QueryBuilder;
 
 /**
  * Created by kmilopr on 14/02/2016.
+ * Basically the CRUD for the entity Application
  */
 public class ApplicationBussines {
 

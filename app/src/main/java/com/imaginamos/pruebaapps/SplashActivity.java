@@ -10,6 +10,10 @@ import com.viksaa.sssplash.lib.model.ConfigSplash;
 
 public class SplashActivity extends AwesomeSplash {
 
+    /**
+     * Splash from the library AwesomeSplash with custom configuration
+     * @param configurationSplash
+     */
     @Override
     public void initSplash(ConfigSplash configurationSplash) {
 
