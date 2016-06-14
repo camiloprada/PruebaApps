@@ -4,20 +4,22 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.imaginamos.pruebaapps.model.Application;
 import com.imaginamos.pruebaapps.model.ApplicationBussines;
 import com.imaginamos.pruebaapps.util.Constants;
-import com.nostra13.universalimageloader.core.ImageLoader;
+//import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class ApplicationDetailActivity extends AppCompatActivity {
 
-    private ImageView imageViewAppDetail;
+    private SimpleDraweeView imageViewAppDetail;
     private TextView textViewArtistDetail;
     private TextView textViewReleaseDateDetail;
     private TextView textViewRightsDetail;
@@ -44,10 +46,14 @@ public class ApplicationDetailActivity extends AppCompatActivity {
      * @param app
      */
     private void setApplicationInfo(Application app){
-        ImageLoader.getInstance().displayImage(app.getUrlImageLarge(), imageViewAppDetail);
-        Bitmap image = ImageLoader.getInstance().loadImageSync(app.getUrlImageLarge());
+//        ImageLoader.getInstance().displayImage(app.getUrlImageLarge(), imageViewAppDetail);
+//        Bitmap image = ImageLoader.getInstance().loadImageSync(app.getUrlImageLarge());
 
-        changeActionBarColorAndTitle(image, app.getTitle());
+
+        Uri uri = Uri.parse(app.getUrlImageLarge());
+        imageViewAppDetail.setImageURI(uri);
+//        Bitmap image = imageViewAppDetail.getDrawingCache();
+//        changeActionBarColorAndTitle(image, app.getTitle());
         textViewArtistDetail.setText(app.getArtist());
         textViewReleaseDateDetail.setText(app.getReleaseDate());
         textViewRightsDetail.setText(app.getRights());
@@ -65,7 +71,7 @@ public class ApplicationDetailActivity extends AppCompatActivity {
      * get the views
      */
     private void initView(){
-        imageViewAppDetail = (ImageView) findViewById(R.id.imageViewAppDetail);
+        imageViewAppDetail = (SimpleDraweeView) findViewById(R.id.imageViewAppDetail);
         textViewArtistDetail= (TextView) findViewById(R.id.textViewArtistDetail);
         textViewReleaseDateDetail= (TextView) findViewById(R.id.textViewReleaseDateDetail);
         textViewRightsDetail= (TextView) findViewById(R.id.textViewRightsDetail);

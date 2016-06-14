@@ -13,7 +13,7 @@ import com.imaginamos.pruebaapps.model.Application;
 import com.imaginamos.pruebaapps.model.ApplicationBussines;
 import com.imaginamos.pruebaapps.model.DaoMaster;
 import com.imaginamos.pruebaapps.model.DaoSession;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
+//import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
