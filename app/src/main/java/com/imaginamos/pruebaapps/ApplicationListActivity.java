@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.alirezaafkar.json.requester.Requester;
@@ -29,7 +31,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ApplicationListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class ApplicationListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private Preferences preferences;
     private ApplicationBussines applicationBussines;
@@ -46,6 +48,7 @@ public class ApplicationListActivity extends AppCompatActivity implements Adapte
         applicationBussines = new ApplicationBussines(getApplicationContext());
         gridView = (GridView) findViewById(R.id.gridApps);
         gridView.setOnItemClickListener(this);
+        gridView.setOnItemLongClickListener(this);
         gridAdapter = new GridAdapter(getApplicationContext());
         verifyPageOrientation();
         Boolean internet = isOnline();
@@ -187,5 +190,11 @@ public class ApplicationListActivity extends AppCompatActivity implements Adapte
             applicationIntent.putExtra(Constants.APPLICATION_ID, app.getId());
             startActivity(applicationIntent);
         }
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(getApplicationContext(), "hello", Toast.LENGTH_LONG).show();
+        return true;
     }
 }
