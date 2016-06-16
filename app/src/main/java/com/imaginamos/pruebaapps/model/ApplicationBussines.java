@@ -76,4 +76,11 @@ public class ApplicationBussines {
         daoSession.getApplicationDao().deleteAll();
     }
 
+
+    public void updateImagePhoto(String pathToPhoto, Long idApplication){
+        ApplicationDao applicationDao = daoSession.getApplicationDao();
+        Application app = getApplication(idApplication);
+        app.setUrlImageLarge(pathToPhoto);
+        applicationDao.update(app);
+    }
 }

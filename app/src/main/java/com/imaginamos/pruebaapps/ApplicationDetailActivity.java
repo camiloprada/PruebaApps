@@ -28,6 +28,7 @@ public class ApplicationDetailActivity extends AppCompatActivity {
     private TextView textViewPriceDetail;
     private TextView textViewSummaryDetail;
     private Long id;
+    private Long idApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class ApplicationDetailActivity extends AppCompatActivity {
     private void setApplicationInfo(Application app){
 //        ImageLoader.getInstance().displayImage(app.getUrlImageLarge(), imageViewAppDetail);
 //        Bitmap image = ImageLoader.getInstance().loadImageSync(app.getUrlImageLarge());
-
+        idApp = app.getId();
 
         Uri uri = Uri.parse(app.getUrlImageLarge());
         imageViewAppDetail.setImageURI(uri);

@@ -10,7 +10,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.imaginamos.pruebaapps.R;
 import com.imaginamos.pruebaapps.model.Application;
 import com.imaginamos.pruebaapps.model.ApplicationBussines;
@@ -41,7 +46,7 @@ public class GridAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
+    public Application getItem(int i) {
         return applicationList.get(i);
     }
 
@@ -80,6 +85,23 @@ public class GridAdapter extends BaseAdapter {
         }
         Uri uri = Uri.parse(applicationList.get(i).getUrlImageLarge());
         imageView.setImageURI(uri);
+
+        ImageRequest imageRequest =
+                ImageRequestBuilder.newBuilderWithSource(uri)
+                        .setResizeOptions(
+                                new ResizeOptions(150, 150))
+                        .build();
+        DraweeController draweeController = Fresco.newDraweeControllerBuilder()
+                .setImageRequest(imageRequest)
+                .setOldController(imageView.getController())
+                .setAutoPlayAnimations(true)
+                .build();
+        imageView.setController(draweeController);
+
+
+
+
+
 //        ImageLoader.getInstance().displayImage(applicationList.get(i).getUrlImageLarge(), imageView);
         return view;
     }
