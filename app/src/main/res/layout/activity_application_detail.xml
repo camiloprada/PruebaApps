@@ -1,101 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
     tools:context="com.imaginamos.pruebaapps.ApplicationDetailActivity">
 
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp">
-
+        android:layout_height="0dp"
+        android:layout_weight="0.7"
+        android:orientation="horizontal">
 
         <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/imageViewAppDetail"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:id="@+id/imageViewAppDetail"
-            fresco:actualImageScaleType="fitCenter"
-            android:layout_weight="5" />
+            android:layout_weight="5"
+            fresco:actualImageScaleType="centerInside" />
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="5">
+            android:layout_weight="5"
+            android:orientation="horizontal">
 
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:layout_gravity="center_vertical">
+                android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textViewArtistDetail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:id="@+id/textViewArtistDetail" />
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
 
                 <TextView
+                    android:id="@+id/textViewReleaseDateDetail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:id="@+id/textViewReleaseDateDetail" />
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
 
                 <TextView
+                    android:id="@+id/textViewRightsDetail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
                     android:maxLength="20"
-                    android:id="@+id/textViewRightsDetail" />
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:layout_gravity="center_vertical">
+                android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textViewTypeDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:id="@+id/textViewTypeDetail" />
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
 
                 <TextView
+                    android:id="@+id/textViewCategoryDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:id="@+id/textViewCategoryDetail" />
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
 
                 <TextView
+                    android:id="@+id/textViewPriceDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:id="@+id/textViewPriceDetail" />
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
 
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
-    <TextView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:scrollbars = "vertical"
-        android:id="@+id/textViewSummaryDetail"
-        />
+        android:layout_weight="2">
+
+        <TextView
+            android:id="@+id/textViewSummaryDetail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
+            android:src="@android:drawable/ic_menu_camera"
+            fab:fab_colorNormal="@color/colorAccent"
+            fab:fab_colorPressed="@color/colorAccent"
+            fab:fab_colorRipple="@color/colorAccent" />
+
+    </FrameLayout>
 </LinearLayout>

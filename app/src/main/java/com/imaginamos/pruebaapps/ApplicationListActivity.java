@@ -4,18 +4,12 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.alirezaafkar.json.requester.Requester;
@@ -32,15 +26,11 @@ import com.imaginamos.pruebaapps.model.Application;
 import com.imaginamos.pruebaapps.model.ApplicationBussines;
 import com.imaginamos.pruebaapps.util.Constants;
 import com.imaginamos.pruebaapps.util.Preferences;
-
-import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ApplicationListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+public class ApplicationListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private static String pathP;
     private Preferences preferences;
@@ -62,7 +52,6 @@ public class ApplicationListActivity extends AppCompatActivity implements Adapte
         applicationBussines = new ApplicationBussines(getApplicationContext());
         gridView = (GridView) findViewById(R.id.gridApps);
         gridView.setOnItemClickListener(this);
-        gridView.setOnItemLongClickListener(this);
         gridAdapter = new GridAdapter(getApplicationContext());
         verifyPageOrientation();
         Boolean internet = isOnline();
@@ -208,52 +197,10 @@ public class ApplicationListActivity extends AppCompatActivity implements Adapte
     }
 
     @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-//        Toast.makeText(getApplicationContext(), "hello", Toast.LENGTH_LONG).show();
-//                 tv =(SimpleDraweeView) view.findViewById(R.id.imageApplication);//your textview id
-      idApp = gridAdapter.getItem(position).getId();
-        takePicture();
-//        Toast.makeText(getApplicationContext(),
-//                "" + tv.getText().toString(), Toast.LENGTH_SHORT)
-//                .show();
-        
-        return true;
-    }
-
-
-    public void takePicture() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        file = Uri.fromFile(getOutputMediaFile());
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
-
-        startActivityForResult(intent, 100);
-    }
-
-    private static File getOutputMediaFile(){
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "PruebaApps");
-
-        if (!mediaStorageDir.exists()){
-            if (!mediaStorageDir.mkdirs()){
-                return null;
-            }
-        }
-
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        pathP = mediaStorageDir.getPath() + File.separator + "IMG_"+ timeStamp + ".jpg";
-        return new File(pathP);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 100) {
-            if (resultCode == RESULT_OK) {
-                applicationBussines.updateImagePhoto("file://"+pathP,idApp);
-                gridAdapter = new GridAdapter(getApplicationContext());
-                gridView.setAdapter(gridAdapter);
-                gridAdapter.notifyDataSetChanged();
-
-            }
-        }
+    protected void onResume() {
+        super.onResume();
+        gridAdapter = new GridAdapter(getApplicationContext());
+        gridView.setAdapter(gridAdapter);
+        gridAdapter.notifyDataSetChanged();
     }
 }

@@ -88,8 +88,8 @@ public class GridAdapter extends BaseAdapter {
 
         ImageRequest imageRequest =
                 ImageRequestBuilder.newBuilderWithSource(uri)
-                        .setResizeOptions(
-                                new ResizeOptions(150, 150))
+                        .setResizeOptions(new ResizeOptions(150, 150))
+                        .setAutoRotateEnabled(true)
                         .build();
         DraweeController draweeController = Fresco.newDraweeControllerBuilder()
                 .setImageRequest(imageRequest)
