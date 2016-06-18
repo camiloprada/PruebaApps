@@ -46,6 +46,7 @@ public class JsonObjectListener extends Response.SimpleObjectResponse {
     @Override
     public void onResponse(int requestCode, @Nullable JSONObject jsonObject) {
         try {
+            applicationBussines.deleteAll();
             //get the information data from json and save it in the greendao db
             JSONArray entries = jsonObject.getJSONObject("feed").getJSONArray("entry");
             for(int i=0;i<entries.length();i++){

@@ -6,14 +6,21 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
+
         android:name=".model.PruebaAppsApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="LOCALYTICS_APP_KEY"
+            android:value="013858202580f04babbf5a6-f17c9956-3488-11e6-1813-00cef1388a40" />
+
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,6 +30,21 @@
         </activity>
         <activity android:name=".ApplicationListActivity" />
         <activity android:name=".ApplicationDetailActivity"></activity>
+
+        <receiver
+            android:name="com.localytics.android.ReferralReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+        <intent-filter>
+            <data android:scheme="amp013858202580f04babbf5a6-f17c9956-3488-11e6-1813-00cef1388a40" />
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+        </intent-filter>
     </application>
 
 </manifest>
