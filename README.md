@@ -6,9 +6,11 @@ Aplicación creada como requerimiento para el proceso de selección en gravility
 
 - GreenDao (base de datos)
 - JsonRequester (simplificación de Volley) https://github.com/alirezaafkar/JsonRequester
-- AwesomeSplash (Actividad Splash)
-- Universal Image Loader (descarga y captura de caché de imagenes)
+- animated-svg-view (Actividad Splash)
+- Fresco (descarga y captura de caché de imagenes)
 - MaterialStyledDialogs (resumen de las aplicaciones en tablet)
+- Clans FAB (Floating button)
+- Localytics
 
 
 #Requerimientos
